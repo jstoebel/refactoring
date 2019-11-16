@@ -1,3 +1,6 @@
 [submodule "tennis_refactoring"]
 	path = tennis_refactoring
 	url = https://github.com/jstoebel/tennis_refactoring/
+[submodule "gilded_rose_kata"]
+	path = gilded_rose_kata
+	url = git@github.com:jstoebel/gilded_rose_kata.git

@@ -8,6 +8,5 @@ SOLID violations?
 
    This would allow for `Alarm` to use any object that implements this protocol. We could easily add different kinds of sensors.
 
-Write tests for alarm
-
-refactor
+Refactor
+  Here we need to extend the constructor signature to accept a single argument `sensor` which defaults to `Sensor.new`. This let's clients supply any sensor like type they want.

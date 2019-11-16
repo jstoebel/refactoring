@@ -32,6 +32,13 @@ describe Alarm do
     expect(alarm.is_alarm_on).to be_falsy
   end
 
+  it 'accepts an custom sensor like object' do
+    my_sensor = double('my_sensor')
+    expect(my_sensor).to receive(:pop_next_pressure_psi_value).and_return(20)
+    alarm = Alarm.new my_sensor
+    alarm.check
+  end
+
   # alarm with a senor 
   def stub_alarm(val)
     sensor = double('sensor', pop_next_pressure_psi_value: val)

@@ -1,32 +1,58 @@
-import {IPerformance} from './types'
+import {IPerformance as IPerformanceData} from './types'
 
-// class PlayPerformance {
-  
-//   playID: string
-//   auidence: number
-//   constructor(performanceData: IPerformance) {
-//     this.playID = performanceData.playID
-//     this.auidence = performanceData.audience
-//   }
-// }
+interface IPerformance {
+  readonly audienceUnitCost: number
+  readonly baselineCost: number
+  audienceCount: number
+  performanceCost(): number
+  volumeCredits(): number
+}
 
-export class TragedyPerformance {
-  playID: string;
-  audienceCount: number;
-
-  readonly audienceUnitCost = 100;
-  readonly baselineCost     = 40000;
-  constructor(performanceData: IPerformance) {
-    this.playID = performanceData.playID
-    this.audienceCount = performanceData.audience
-  }
-  performanceCost() {
-    if (this.audienceCount <= 30) return this.baselineCost
-    const audienceCost = (this.audienceCount - 30) * this.audienceUnitCost
-    return audienceCost + this.baselineCost
+class Performance {
+  audienceCount: number
+  constructor(audienceCount: number) {
+    this.audienceCount = audienceCount
   }
 
   volumeCredits() {
     return Math.max(this.audienceCount - 30, 0)
+  }
+}
+
+export class TragedyPerformance extends Performance implements IPerformance {
+
+
+  readonly audienceUnitCost = 1000;
+  readonly baselineCost     = 40000;
+  constructor(audienceCount: number) {
+    super(audienceCount)
+  }
+  performanceCost() {
+    if (this.audienceCount <= 30) return this.baselineCost
+
+    const audienceCost = (this.audienceCount - 30) * this.audienceUnitCost
+
+    return audienceCost + this.baselineCost
+  }
+}
+
+export class ComedyPerformance extends Performance implements IPerformance {
+  readonly audienceUnitCost         = 500;
+  readonly baselineCost             = 30000;
+  readonly audienceBonusUnitCost    = 300
+  constructor(audienceCount: number) {
+    super(audienceCount)
+  }
+
+  performanceCost() {
+    const audienceBonus = this.audienceBonusUnitCost * this.audienceCount;
+    
+    const baseCost = this.baselineCost + audienceBonus;
+    if (this.audienceCount < 20) return baseCost;
+    return baseCost + 10000 + this.audienceUnitCost * (this.audienceCount - 20)
+  }
+
+  volumeCredits() {
+    return Math.max(this.audienceCount - 30, 0) + Math.floor(this.audienceCount / 5)
   }
 }

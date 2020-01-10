@@ -1,7 +1,6 @@
 import {IInvoice, IPlays} from './types'
 
 export default function statement (invoice: IInvoice, plays: IPlays) { // long function
-    let totalAmount = 0; // mutable
     let volumeCredits = 0; // mutable
     let result = `Statement for ${invoice.customer}\n`; // mutable, myterious name
     const currencyFormatter = new Intl.NumberFormat("en-US",
@@ -40,7 +39,7 @@ export default function statement (invoice: IInvoice, plays: IPlays) { // long f
         }
     })
 
-    totalAmount = performancesData.map((perf) => perf.performanceCost).reduce((prev, curr) => prev + curr, 0)
+    const totalAmount = performancesData.map((perf) => perf.performanceCost).reduce((prev, curr) => prev + curr, 0)
 
     result += performancesData.map((perf) => ` ${perf.text}`).join('\n')
     result += '\n'

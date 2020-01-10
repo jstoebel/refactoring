@@ -1,7 +1,8 @@
 {
   "triggerTaskOnSave.tasks": {
     "test": [
-      "src/**/*.ts"
+      "src/**/*.ts",
+      "test/**/*"
     ],
   },
   "triggerTaskOnSave.on": true

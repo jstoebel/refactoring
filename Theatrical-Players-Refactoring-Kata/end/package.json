@@ -1,8 +1,5 @@
 {
   "name": "theatrical-players-refactoring-kata",
-  "jest": {
-    "verbose": true
-  },
   "version": "1.0.0",
   "description": "Example from first chapter of 'Refactoring' by Martin Fowler, 2nd Edition (https://www.thoughtworks.com/books/refactoring2)",
   "scripts": {
@@ -26,9 +23,11 @@
     "@babel/core": "^7.7.7",
     "@babel/preset-env": "^7.7.7",
     "@babel/preset-typescript": "^7.7.7",
+    "@types/jest": "^24.0.25",
     "babel": "^5.8.23",
     "babel-jest": "^24.9.0",
     "jest": "^24.8.0",
+    "ts-jest": "^24.3.0",
     "typescript": "^3.7.4"
   }
 }

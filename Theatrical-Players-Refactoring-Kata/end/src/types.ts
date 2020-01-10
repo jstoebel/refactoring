@@ -1,4 +1,4 @@
-interface IPerformance {
+export interface IPerformance {
   playID: string
   audience: number
 }

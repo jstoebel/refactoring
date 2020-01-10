@@ -8,7 +8,7 @@ export default function statement (invoice: IInvoice, plays: IPlays) { // long f
         { style: "currency", currency: "USD",
             minimumFractionDigits: 2 }).format; // myterious name
 
-    for (let perf of invoice.performances) { // loop
+    const performancesData = invoice.performances.map((perf) => {
         const play = plays[perf.playID];
         let thisAmount = 0; // mutable, mysterious. the cost for a single performance
         switch (play.type) { // switch!
@@ -33,9 +33,17 @@ export default function statement (invoice: IInvoice, plays: IPlays) { // long f
         // add extra credit for every ten comedy attendees
         if ("comedy" === play.type) volumeCredits += Math.floor(perf.audience / 5); // random business logic
         // print line for this order
-        result += ` ${play.name}: ${currencyFormatter(thisAmount/100)} (${perf.audience} seats)\n`;
-        totalAmount += thisAmount;
-    }
+
+        return {
+            text: `${play.name}: ${currencyFormatter(thisAmount/100)} (${perf.audience} seats)`,
+            performanceCost: thisAmount
+        }
+    })
+
+    totalAmount = performancesData.map((perf) => perf.performanceCost).reduce((prev, curr) => prev + curr, 0)
+
+    result += performancesData.map((perf) => ` ${perf.text}`).join('\n')
+    result += '\n'
     result += `Amount owed is ${currencyFormatter(totalAmount/100)}\n`;
     result += `You earned ${volumeCredits} credits\n`;
     return result;

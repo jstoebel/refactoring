@@ -1,0 +1,8 @@
+{
+  "triggerTaskOnSave.tasks": {
+    "test": [
+      "src/**/*.ts"
+    ],
+  },
+  "triggerTaskOnSave.on": true
+}

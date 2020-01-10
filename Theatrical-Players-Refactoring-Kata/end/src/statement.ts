@@ -1,13 +1,15 @@
 import {IInvoice, IPlays} from './types'
 
 export default function statement (invoice: IInvoice, plays: IPlays) { // long function
-    let volumeCredits = 0; // mutable
+    
     let result = `Statement for ${invoice.customer}\n`; // mutable, myterious name
     const currencyFormatter = new Intl.NumberFormat("en-US",
         { style: "currency", currency: "USD",
             minimumFractionDigits: 2 }).format; // myterious name
 
     const performancesData = invoice.performances.map((perf) => {
+
+        let volumeCredits = 0; // mutable
         const play = plays[perf.playID];
         let thisAmount = 0; // mutable, mysterious. the cost for a single performance
         switch (play.type) { // switch!
@@ -35,15 +37,17 @@ export default function statement (invoice: IInvoice, plays: IPlays) { // long f
 
         return {
             text: `${play.name}: ${currencyFormatter(thisAmount/100)} (${perf.audience} seats)`,
-            performanceCost: thisAmount
+            performanceCost: thisAmount,
+            volumeCredits
         }
     })
 
     const totalAmount = performancesData.map((perf) => perf.performanceCost).reduce((prev, curr) => prev + curr, 0)
+    const totalVolumeCredits = performancesData.map((perf) => perf.volumeCredits).reduce((prev, curr) => prev + curr, 0)
 
     result += performancesData.map((perf) => ` ${perf.text}`).join('\n')
     result += '\n'
     result += `Amount owed is ${currencyFormatter(totalAmount/100)}\n`;
-    result += `You earned ${volumeCredits} credits\n`;
+    result += `You earned ${totalVolumeCredits} credits\n`;
     return result;
 }

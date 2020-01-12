@@ -112,3 +112,19 @@ export default function PerformanceFactory(audience: number, type: PerformanceTy
 
 Now when I need to add new performance types, `statement.ts` doesn't need to change at all. We simply implement the new class and add it to the factory. SRP for the win!
 
+Next, generating the output as a string seems a little clunky to me. Instead, I am going to use a nunjucks template
+
+```typescript
+
+nunjucks.configure('./src', {trimBlocks: true});
+
+return nunjucks.render('report.txt', {
+    customer: customer,
+    lineItems,
+    totalAmount: currencyFormatter(totalAmount/100),
+    totalVolumeCredits
+})
+```
+
+That way it'll be easier to edit the output if we need to.
+

@@ -1,0 +1,6 @@
+Statement for {{customer}}
+{% for lineItem in lineItems %}
+ {{lineItem}}
+{% endfor %}
+Amount owed is {{totalAmount}}
+You earned {{totalVolumeCredits}} credits

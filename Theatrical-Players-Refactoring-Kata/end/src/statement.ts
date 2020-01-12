@@ -1,31 +1,28 @@
 import {IInvoice, IPlays} from './types'
 import PerformanceFactory from './performance';
+import { currencyFormatter } from './util'
+import nunjucks from 'nunjucks';
+
+nunjucks.configure('./src', {trimBlocks: true});
 
 export default function statement (invoice: IInvoice, plays: IPlays) { // long function
     
-    let result = `Statement for ${invoice.customer}\n`; // mutable, myterious name
-    const currencyFormatter = new Intl.NumberFormat("en-US",
-        { style: "currency", currency: "USD",
-            minimumFractionDigits: 2 }).format; // myterious name
+    const sum = (prev: number, curr: number) => prev + curr // summing function for array of numbers
 
-    const performancesData = invoice.performances.map((perf) => {
-
+    const {performances, customer} = invoice;
+    const performancesData = performances.map((perf) => {
         const play = plays[perf.playID];
-        const perfObj = PerformanceFactory(perf.audience, play.type)
-
-        return {
-            text: `${play.name}: ${currencyFormatter(perfObj.performanceCost()/100)} (${perf.audience} seats)`,
-            performanceCost: perfObj.performanceCost(),
-            volumeCredits: perfObj.volumeCredits()
-        }
+        return PerformanceFactory(play.name, perf.audience, play.type)
     })
 
-    const totalAmount = performancesData.map((perf) => perf.performanceCost).reduce((prev, curr) => prev + curr, 0)
-    const totalVolumeCredits = performancesData.map((perf) => perf.volumeCredits).reduce((prev, curr) => prev + curr, 0)
+    const totalAmount = performancesData.map((perf) => perf.performanceCost()).reduce(sum, 0)
+    const totalVolumeCredits = performancesData.map((perf) => perf.volumeCredits()).reduce(sum, 0)
+    const lineItems = performancesData.map((perf) => perf.lineItem())
 
-    result += performancesData.map((perf) => ` ${perf.text}`).join('\n')
-    result += '\n'
-    result += `Amount owed is ${currencyFormatter(totalAmount/100)}\n`;
-    result += `You earned ${totalVolumeCredits} credits\n`;
-    return result;
+    return nunjucks.render('report.txt', {
+        customer: customer,
+        lineItems,
+        totalAmount: currencyFormatter(totalAmount/100),
+        totalVolumeCredits
+    })
 }

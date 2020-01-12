@@ -1,4 +1,4 @@
-import {IPerformance as IPerformanceData} from './types'
+import {IPerformance as IPerformanceData, PerformanceTypes} from './types'
 
 interface IPerformance {
   readonly audienceUnitCost: number
@@ -19,7 +19,7 @@ class Performance {
   }
 }
 
-export class TragedyPerformance extends Performance implements IPerformance {
+class TragedyPerformance extends Performance implements IPerformance {
 
 
   readonly audienceUnitCost = 1000;
@@ -36,7 +36,7 @@ export class TragedyPerformance extends Performance implements IPerformance {
   }
 }
 
-export class ComedyPerformance extends Performance implements IPerformance {
+class ComedyPerformance extends Performance implements IPerformance {
   readonly audienceUnitCost         = 500;
   readonly baselineCost             = 30000;
   readonly audienceBonusUnitCost    = 300
@@ -54,5 +54,16 @@ export class ComedyPerformance extends Performance implements IPerformance {
 
   volumeCredits() {
     return Math.max(this.audienceCount - 30, 0) + Math.floor(this.audienceCount / 5)
+  }
+}
+
+export default function PerformanceFactory(audience: number, type: PerformanceTypes): IPerformance {
+  switch(type) {
+    case 'tragedy':
+      return new TragedyPerformance(audience)
+    case 'comedy':
+      return new ComedyPerformance(audience)
+    default:
+      throw '/unknown type/'
   }
 }

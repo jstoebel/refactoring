@@ -10,9 +10,11 @@ export interface IInvoice {
 
 interface IPlay {
   name: string
-  type: 'tragedy' | 'comedy'
+  type: PerformanceTypes
 }
 
 export interface IPlays {
   [playTitle: string]: IPlay
 }
+
+export type PerformanceTypes = 'tragedy' | 'comedy'

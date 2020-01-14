@@ -1,0 +1,10 @@
+<div>
+  <h1>Statement for {{customer}}</h1>
+  <ol>
+    {% for lineItem in lineItems %}
+      <li>{{lineItem}}</li>
+    {% endfor %}
+  </ol>
+  <div>Amount owed is {{totalAmount}}</div>
+  <div>You earned {{totalVolumeCredits}} credits</div>
+</div>

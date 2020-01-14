@@ -18,3 +18,9 @@ export interface IPlays {
 }
 
 export type PerformanceTypes = 'tragedy' | 'comedy'
+
+export type outputFormats = 'txt' | 'html'
+
+export interface IStatementOptions {
+  output: outputFormats
+}

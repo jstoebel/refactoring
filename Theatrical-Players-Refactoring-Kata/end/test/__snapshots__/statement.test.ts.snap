@@ -9,3 +9,17 @@ Amount owed is $1,730.00
 You earned 47 credits
 "
 `;
+
+exports[`html output 1`] = `
+"<div>
+  <h1>Statement for BigCo</h1>
+  <ol>
+      <li>Hamlet: $650.00 (55 seats)</li>
+      <li>As You Like It: $580.00 (35 seats)</li>
+      <li>Othello: $500.00 (40 seats)</li>
+  </ol>
+  <div>Amount owed is $1,730.00</div>
+  <div>You earned 47 credits</div>
+</div>
+"
+`;

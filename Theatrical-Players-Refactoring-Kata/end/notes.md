@@ -128,3 +128,32 @@ return nunjucks.render('report.txt', {
 
 That way it'll be easier to edit the output if we need to.
 
+## Adding new features
+
+Now comes the fun part, adding the new features is a breeze!
+
+### html output
+
+We want to be able to generate either txt or html output. Nunjucks helps us here! I'm going to update the statement function signature to accept an output type (with txt being the default for backwards compatability)
+
+```typescript
+const defaultOptions: IStatementOptions = { output: 'txt' }
+
+export default function statement (invoice: IInvoice, plays: IPlays, options: Partial<IStatementOptions> = {}) {
+    
+    const allOptions: IStatementOptions = Object.assign({}, defaultOptions, options)
+```
+
+and I'm also going to create a function that wraps nunjucks and renders the correct template
+
+```typescript
+/**
+ * render statement in the desired output format
+ */
+function renderReport(data: IStatementData, outputType: outputFormats): string {
+    return nunjucks.render(`report.${outputType}`, data)
+}
+```
+
+If we later need to be able to add even more types (json? xml? yaml?). No sweat! Create a new template, update the types and you're good to go!
+

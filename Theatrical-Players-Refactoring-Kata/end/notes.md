@@ -157,3 +157,14 @@ function renderReport(data: IStatementData, outputType: outputFormats): string {
 
 If we later need to be able to add even more types (json? xml? yaml?). No sweat! Create a new template, update the types and you're good to go!
 
+# adding history and pastoral
+
+ - history: like tragedy except audience unit cost is 1200
+ - pastoral: like comedy except volume credit is calculated by dividing by 7
+
+Again, this is where our refactoring really pays off! To implement this we need to:
+
+ - implement two new classes `HistoryPerformance` and `PastoralPerformance`. They will be similar to the existing performance classes just with some different business rules.
+ - Update the `PerformanceFactory` accordingly.
+
+That's it! Not sphgetti code or confusion about how to add this feature without breaking something else. Everything is neatly tucked away in its own place. It only needs to change for its own sake and not for anyone elses.

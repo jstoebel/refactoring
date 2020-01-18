@@ -23,3 +23,12 @@ exports[`html output 1`] = `
 </div>
 "
 `;
+
+exports[`statement with new play types 1`] = `
+"Statement for BigCoII
+ Henry V: $676.00 (53 seats)
+ As You Like It: $740.00 (55 seats)
+Amount owed is $1,416.00
+You earned 55 credits
+"
+`;

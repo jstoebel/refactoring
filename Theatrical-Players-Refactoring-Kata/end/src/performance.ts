@@ -71,12 +71,54 @@ class ComedyPerformance extends Performance implements IPerformance {
   }
 }
 
+class HistoryPerformance extends Performance implements IPerformance {
+
+
+  readonly audienceUnitCost = 1200;
+  readonly baselineCost     = 40000;
+  constructor(playName: string, audienceCount: number) {
+    super(playName, audienceCount)
+  }
+  performanceCost() {
+    if (this.audienceCount <= 30) return this.baselineCost
+
+    const audienceCost = (this.audienceCount - 30) * this.audienceUnitCost
+
+    return audienceCost + this.baselineCost
+  }
+}
+
+class PastoralPerformance extends Performance implements IPerformance {
+  readonly audienceUnitCost         = 500;
+  readonly baselineCost             = 30000;
+  readonly audienceBonusUnitCost    = 300
+  constructor(playName: string, audienceCount: number) {
+    super(playName, audienceCount)
+  }
+
+  performanceCost() {
+    const audienceBonus = this.audienceBonusUnitCost * this.audienceCount;
+    
+    const baseCost = this.baselineCost + audienceBonus;
+    if (this.audienceCount < 20) return baseCost;
+    return baseCost + 10000 + this.audienceUnitCost * (this.audienceCount - 20)
+  }
+
+  volumeCredits() {
+    return Math.max(this.audienceCount - 30, 0) + Math.floor(this.audienceCount / 7)
+  }
+}
+
 export default function PerformanceFactory(name: string, audience: number, type: PerformanceTypes): IPerformance {
   switch(type) {
     case 'tragedy':
       return new TragedyPerformance(name, audience)
     case 'comedy':
       return new ComedyPerformance(name, audience)
+    case 'history':
+      return new HistoryPerformance(name, audience)
+    case 'pastoral':
+      return new PastoralPerformance(name, audience)
     default:
       throw '/unknown type/'
   }

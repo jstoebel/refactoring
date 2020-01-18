@@ -17,7 +17,7 @@ export interface IPlays {
   [playTitle: string]: IPlay
 }
 
-export type PerformanceTypes = 'tragedy' | 'comedy'
+export type PerformanceTypes = 'tragedy' | 'comedy' | 'history' | 'pastoral'
 
 export type outputFormats = 'txt' | 'html'
 
